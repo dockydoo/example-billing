@@ -1,0 +1,19 @@
+# DockyDoo project config. Detected archetype + where to read from.
+archetype: api-backend
+source:
+  include:
+    - "src/**/*.ts"
+  exclude:
+    - "**/*.test.ts"
+tests:
+  include:
+    - "test/**/*.test.ts"
+  coverage: coverage/lcov.info   # read to confirm what tests actually exercise
+# Coverage gate is org policy. Soft by default (a score), can be made a hard
+# CI gate with: check.failOn: [undocumented-public, stale, debt-high]
+# Debt budget: the most tech debt this team allows before the review gate
+# blocks deploy. This example carries 1 high-impact debt item, so high_debt: 0
+# reads OVER on purpose: `docky review --fail-on over-budget` exits 1 until the
+# debt is fixed (the AI must clear it; it cannot override the policy).
+budget:
+  high_debt: 0

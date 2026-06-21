@@ -1,0 +1,219 @@
+{
+  "project_id": "billing",
+  "project": {
+    "id": "billing",
+    "name": "billing",
+    "slug": "billing",
+    "commit": "a0c45590f4563637864aad5308ebce60d6646966"
+  },
+  "pages": [
+    {
+      "slug": "capabilities-billing",
+      "title": "Billing",
+      "description": "When a plan changes mid-cycle, charge or credit the difference. Computes the invoice delta, issues a credit, and applies tax per region.",
+      "confidence": {
+        "documented": 100,
+        "verified": "verified",
+        "tested": 0,
+        "debt": {
+          "count": 1,
+          "high": 1
+        }
+      },
+      "built_from": [
+        {
+          "symbol": "BillingService.applyProration()",
+          "kind": "method",
+          "doc": "documented",
+          "coverage": null,
+          "debt": "high",
+          "attest": "verified",
+          "file": "examples/billing/src/billing/BillingService.ts",
+          "line": 26
+        },
+        {
+          "symbol": "CreditsService.applyCredit()",
+          "kind": "method",
+          "doc": "documented",
+          "coverage": null,
+          "debt": null,
+          "attest": "verified",
+          "file": "examples/billing/src/billing/CreditsService.ts",
+          "line": 16
+        },
+        {
+          "symbol": "InvoiceCalculator.computeDelta()",
+          "kind": "method",
+          "doc": "documented",
+          "coverage": null,
+          "debt": null,
+          "attest": "verified",
+          "file": "examples/billing/src/billing/InvoiceCalculator.ts",
+          "line": 10
+        },
+        {
+          "symbol": "RefundService.issue()",
+          "kind": "method",
+          "doc": "documented",
+          "coverage": null,
+          "debt": null,
+          "attest": "verified",
+          "file": "examples/billing/src/billing/RefundService.ts",
+          "line": 8
+        },
+        {
+          "symbol": "round()",
+          "kind": "method",
+          "doc": "documented",
+          "coverage": null,
+          "debt": null,
+          "attest": "verified",
+          "file": "examples/billing/src/billing/Money.ts",
+          "line": 9
+        },
+        {
+          "symbol": "tax service.priceWithTax()",
+          "kind": "external",
+          "doc": "unknown",
+          "coverage": null,
+          "debt": null
+        },
+        {
+          "symbol": "ProrationPolicy",
+          "kind": "class",
+          "doc": "gap",
+          "coverage": null,
+          "debt": null,
+          "file": "examples/billing/src/billing/ProrationPolicy.ts",
+          "line": 4
+        }
+      ],
+      "reuses": [
+        "InvoiceCalculator.computeDelta() (reused in 2 places)",
+        "RefundService.issue()",
+        "ProrationPolicy.priceOf()",
+        "ProrationPolicy.remainingFraction()",
+        "round() (reused in 2 places)"
+      ],
+      "reused_by": [],
+      "gaps": [
+        {
+          "id": "gap-prorationpolicy-undocumented",
+          "kind": "undocumented",
+          "label": "ProrationPolicy is public but undocumented.",
+          "action": "Annotate",
+          "file": "examples/billing/src/billing/ProrationPolicy.ts",
+          "line": 4
+        },
+        {
+          "id": "gap-tax-service-pricewithtax-external",
+          "kind": "unknown-external",
+          "label": "tax service.priceWithTax() lives in another repo, unknown/unverifiable.",
+          "action": "Connect that repo"
+        }
+      ],
+      "insights": [
+        {
+          "id": "ins-round-load-bearing",
+          "kind": "invariant",
+          "title": "Rounding is load-bearing",
+          "statement": "Changing the rounding mode shifts credited amounts at scale. Keep banker's rounding or carry a linked decision.",
+          "evidence": [
+            "round is reused by 2 call sites across Billing",
+            "its result flows into amount and credit fields",
+            "Decision RFC-0042: banker's rounding chosen for fairness across credits"
+          ]
+        }
+      ],
+      "todos": [
+        {
+          "id": "todo-769f1e278fbc36d7",
+          "priority": "high",
+          "text": "partial refunds are not handled",
+          "symbol": "BillingService.applyProration",
+          "file": "examples/billing/src/billing/BillingService.ts",
+          "line": 26
+        }
+      ],
+      "debt": [
+        {
+          "id": "debt-681ab61a8563665e",
+          "severity": "debt",
+          "impact": "high",
+          "likelihood": "med",
+          "risk": "high",
+          "reason": "hard-coded tax rate, should use TaxService",
+          "ticket": "BIL-412",
+          "symbol": "BillingService.applyProration",
+          "file": "examples/billing/src/billing/BillingService.ts",
+          "line": 26
+        }
+      ],
+      "decisions": [
+        {
+          "id": "decision-rfc-0042",
+          "reference": "RFC-0042",
+          "why": "banker's rounding chosen for fairness across credits",
+          "symbol": "round",
+          "file": "examples/billing/src/billing/Money.ts",
+          "line": 9,
+          "status": "superseded",
+          "supersedes": null,
+          "superseded_by": "RFC-0099"
+        },
+        {
+          "id": "decision-rfc-0099",
+          "reference": "RFC-0099",
+          "why": "switch to round-half-up after the 2026 pricing review",
+          "symbol": "round",
+          "file": "examples/billing/src/billing/Money.ts",
+          "line": 9,
+          "status": "active",
+          "supersedes": "RFC-0042",
+          "superseded_by": null
+        }
+      ],
+      "invariants": [
+        {
+          "id": "invariant-7dbfb8ec479a09f6",
+          "rule": "Uses banker's rounding. The mode must not change without a linked decision; it shifts credited amounts at scale.",
+          "symbol": "round",
+          "file": "examples/billing/src/billing/Money.ts",
+          "line": 9
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "symbols": 12,
+    "documented_pct": 42,
+    "tested_pct": 0,
+    "open_debt": 1,
+    "high_debt": 1,
+    "open_todos": 1,
+    "todos_high": 1,
+    "attested_pct": 100,
+    "drift": {
+      "stale": 0,
+      "unverified": 0,
+      "unattested": 0
+    },
+    "gaps_by_kind": {
+      "undocumented": 1,
+      "untested": 0,
+      "unknown_external": 1,
+      "missing_why": 0
+    },
+    "top_insights": [
+      "Rounding is load-bearing: Changing the rounding mode shifts credited amounts at scale. Keep banker's rounding or carry a linked decision."
+    ],
+    "budget": {
+      "high_debt": 0,
+      "over": true,
+      "breaches": [
+        "tech debt over budget: 1 high-impact item (budget 0)"
+      ]
+    }
+  },
+  "pending_accounting": []
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "symbol": "BillingService.applyProration",
+    "file": "src/billing/BillingService.ts",
+    "code_hash": "1c174864a9dd717e",
+    "doc_hash": "fbd72e1a97949d78",
+    "by": "Elvis",
+    "at": "1781946505",
+    "prev": ""
+  },
+  {
+    "symbol": "CreditsService.applyCredit",
+    "file": "src/billing/CreditsService.ts",
+    "code_hash": "c0ec65e06f4ae846",
+    "doc_hash": "405eea6c18d967f8",
+    "by": "Elvis",
+    "at": "1781946505",
+    "prev": "3af0b1e927a8763a"
+  },
+  {
+    "symbol": "InvoiceCalculator.computeDelta",
+    "file": "src/billing/InvoiceCalculator.ts",
+    "code_hash": "a665d9d233084b9b",
+    "doc_hash": "970a9c5576944454",
+    "by": "Elvis",
+    "at": "1781946505",
+    "prev": "e8f7620b9608b600"
+  },
+  {
+    "symbol": "RefundService.issue",
+    "file": "src/billing/RefundService.ts",
+    "code_hash": "2c4c540153e65c31",
+    "doc_hash": "6459ed29d772304d",
+    "by": "Elvis",
+    "at": "1781946505",
+    "prev": "11438a0d73880e3d"
+  },
+  {
+    "symbol": "round",
+    "file": "src/billing/Money.ts",
+    "code_hash": "33489dd720a8cb36",
+    "doc_hash": "1b918093ed48d160",
+    "by": "Elvis",
+    "at": "1781946505",
+    "prev": "ccb54a02f9802c33"
+  }
+]
